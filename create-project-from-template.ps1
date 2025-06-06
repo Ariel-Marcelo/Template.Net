@@ -52,20 +52,31 @@ $excludedFiles = @(
 
 # Copy files using robocopy with exclusions
 Write-Host "Copying project files..."
-$excludeDirs = $excludedDirs | ForEach-Object { "/XD `"$_`"" }
-$excludeFiles = $excludedFiles | ForEach-Object { "/XF `"$_`"" }
 
-Write-Host "Copying files (excluding unnecessary ones)..."
+# Build the robocopy command with proper argument handling
 $robocopyArgs = @(
-    ".",
-    "`"$newPath`"",
-    "/E",
-    "/NFL",
-    "/NDL",
-    "/NJH",
-    "/NJS"
-) + $excludeDirs + $excludeFiles
+    "."                     # Source directory
+    $newPath               # Destination directory
+    "/E"                   # Copy subdirectories, including empty ones
+    "/NFL"                 # No File List - don't log file names
+    "/NDL"                 # No Directory List - don't log directory names
+    "/NJH"                 # No Job Header
+    "/NJS"                 # No Job Summary
+)
 
+# Add excluded directories
+foreach ($dir in $excludedDirs) {
+    $robocopyArgs += "/XD"
+    $robocopyArgs += $dir
+}
+
+# Add excluded files
+foreach ($file in $excludedFiles) {
+    $robocopyArgs += "/XF"
+    $robocopyArgs += $file
+}
+
+# Execute robocopy with the arguments
 & robocopy @robocopyArgs
 
 # Check if the copy was successful
