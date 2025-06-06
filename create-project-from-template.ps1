@@ -27,9 +27,42 @@ $newPath = Join-Path $DestinationPath $NewProjectName
 Write-Host "Creating new project directory: $newPath"
 New-Item -ItemType Directory -Path $newPath -Force
 
-# Copy all files excluding bin and obj
+# Define directories and files to exclude
+$excludedDirs = @(
+    "bin",
+    "obj",
+    ".git",
+    ".vs",
+    "node_modules",
+    ".github",
+    ".vscode",
+    "TestResults"
+)
+
+$excludedFiles = @(
+    ".gitignore",
+    ".gitattributes",
+    ".env",
+    "*.user",
+    "*.suo",
+    "*.cache",
+    "*.log"
+)
+
+# Copy files using robocopy with exclusions
 Write-Host "Copying project files..."
-robocopy . $newPath /E /XD bin obj
+$excludeDirString = $excludedDirs -join " "
+$excludeFileString = $excludedFiles -join " "
+
+Write-Host "Copying files (excluding unnecessary ones)..."
+$robocopyCommand = "robocopy . `"$newPath`" /E /XD $excludeDirString /XF $excludeFileString /NFL /NDL /NJH /NJS"
+Invoke-Expression $robocopyCommand
+
+# Check if the copy was successful
+if (-not (Test-Path (Join-Path $newPath "template-net7.csproj"))) {
+    Write-Error "Failed to copy project files. The source .csproj file was not found in the destination."
+    exit 1
+}
 
 # Navigate to new directory
 Set-Location $newPath
