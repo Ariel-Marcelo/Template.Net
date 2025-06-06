@@ -22,7 +22,7 @@ public class UserRepository : IUserRepository
         _logger.LogInformation("Getting all users");
         var users = new List<User>();
 
-        using var reader = await _spExecutor.ExecuteSp("sp_GetAllUsers");
+        using var reader = await _spExecutor.ExecuteSp("SP_GetAllUsers");
         while (await reader.ReadAsync())
         {
             users.Add(MapUserFromReader(reader));
@@ -135,11 +135,11 @@ public class UserRepository : IUserRepository
             Id = reader.GetGuid(reader.GetOrdinal("Id")),
             Username = reader.GetString(reader.GetOrdinal("Username")),
             Email = reader.GetString(reader.GetOrdinal("Email")),
-            Password = reader.GetString(reader.GetOrdinal("PasswordHash")),
-            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-            LastName = reader.GetString(reader.GetOrdinal("LastName")),
+            //Password = reader.GetString(reader.GetOrdinal("PasswordHash")),
+            //FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+            //LastName = reader.GetString(reader.GetOrdinal("LastName")),
             CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
-            UpdatedAt = reader.GetDateTime(reader.GetOrdinal("UpdatedAt"))
+            //UpdatedAt = reader.GetDateTime(reader.GetOrdinal("UpdatedAt"))
         };
     }
 }
