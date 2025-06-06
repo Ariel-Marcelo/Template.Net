@@ -46,17 +46,27 @@ $excludedFiles = @(
     "*.user",
     "*.suo",
     "*.cache",
-    "*.log"
+    "*.log",
+    "create-project-from-template.ps1"
 )
 
 # Copy files using robocopy with exclusions
 Write-Host "Copying project files..."
-$excludeDirString = $excludedDirs -join " "
-$excludeFileString = $excludedFiles -join " "
+$excludeDirs = $excludedDirs | ForEach-Object { "/XD `"$_`"" }
+$excludeFiles = $excludedFiles | ForEach-Object { "/XF `"$_`"" }
 
 Write-Host "Copying files (excluding unnecessary ones)..."
-$robocopyCommand = "robocopy . `"$newPath`" /E /XD $excludeDirString /XF $excludeFileString /NFL /NDL /NJH /NJS"
-Invoke-Expression $robocopyCommand
+$robocopyArgs = @(
+    ".",
+    "`"$newPath`"",
+    "/E",
+    "/NFL",
+    "/NDL",
+    "/NJH",
+    "/NJS"
+) + $excludeDirs + $excludeFiles
+
+& robocopy @robocopyArgs
 
 # Check if the copy was successful
 if (-not (Test-Path (Join-Path $newPath "template-net7.csproj"))) {
