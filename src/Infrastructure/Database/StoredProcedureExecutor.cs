@@ -1,6 +1,7 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 using Template.Shared.Infrastructure.Settings;
 using Template.Core.Domain.Ports;
 
@@ -9,17 +10,26 @@ namespace Template.Infrastructure.Database;
 public class StoredProcedureExecutor : IStoredProcedureExecutor, IAsyncDisposable
 {
     private readonly string _connectionString;
+    private readonly ILogger<StoredProcedureExecutor> _logger;
     private SqlConnection? _connection;
     private bool _disposed;
 
-    public StoredProcedureExecutor(IOptions<DatabaseSettings> settings)
+    public StoredProcedureExecutor(IOptions<DatabaseSettings> settings, ILogger<StoredProcedureExecutor> logger)
     {
+        _logger = logger;
         _connectionString = settings.Value.SqlConnection;
+        _logger.LogInformation("Connection string initialized: {ConnectionStringEmpty}", !string.IsNullOrEmpty(_connectionString));
     }
 
     public async Task<SqlDataReader> ExecuteSp(string storeProcedureName, ICollection<SqlParameter>? parameters = null)
     {
         ThrowIfDisposed();
+
+        if (string.IsNullOrEmpty(_connectionString))
+        {
+            _logger.LogError("Connection string is empty or null");
+            throw new InvalidOperationException("Database connection string is not configured");
+        }
 
         _connection = new SqlConnection(_connectionString);
         await _connection.OpenAsync();

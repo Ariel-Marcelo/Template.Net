@@ -5,7 +5,6 @@ using Template.Core.Domain.Interfaces;
 
 namespace Template.Api.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UserController : ControllerBase
