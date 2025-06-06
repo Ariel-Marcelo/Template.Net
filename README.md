@@ -1,0 +1,156 @@
+# .NET 7 API Template with Hexagonal Architecture
+
+This template provides a structured approach to building APIs using .NET 7, following the hexagonal architecture pattern (also known as ports and adapters). It includes authentication, logging, and Swagger documentation out of the box.
+
+## Features
+
+- 🏗️ **Hexagonal Architecture**
+  - Core Domain Logic
+  - Application Services
+  - Infrastructure Implementation
+  - API Controllers
+  - Shared Infrastructure
+
+- 🔐 **Authentication**
+  - JWT Token-based authentication
+  - Configurable JWT settings
+  - Ready for custom user storage implementation
+
+- 📝 **Logging with Serilog**
+  - Console logging
+  - File logging with daily rotation
+  - Structured logging format
+  - Request/Response logging
+
+- 📚 **API Documentation**
+  - Swagger UI
+  - OpenAPI specification
+
+## Project Structure
+
+```
+src/
+├── Core/
+│   ├── Domain/          # Entities, Value Objects, Domain Events
+│   └── Application/     # Interfaces, DTOs, Application Services
+├── Infrastructure/
+│   ├── Persistence/     # Database Implementations
+│   └── Services/        # Service Implementations
+├── Api/
+│   ├── Controllers/     # API Endpoints
+│   ├── Configuration/   # API Configuration
+│   └── Middleware/      # Custom Middleware
+└── Shared/
+    └── Infrastructure/  # Shared Components
+```
+
+## Quick Start
+
+### Creating a New Project
+
+1. Clone this template repository
+2. Run the provided PowerShell script to create a new project:
+
+```powershell
+.\create-project-from-template.ps1 -NewProjectName "YourProjectName" -DestinationPath "C:\YourPath"
+```
+
+Parameters:
+- `NewProjectName`: The name of your new project
+- `DestinationPath`: Where to create the project (optional, defaults to parent directory)
+
+Example:
+```powershell
+.\create-project-from-template.ps1 -NewProjectName "MyAwesomeApi" -DestinationPath "C:\Projects"
+```
+
+### Running the Project
+
+1. Navigate to your project directory
+2. Restore dependencies:
+```powershell
+dotnet restore
+```
+
+3. Run the application:
+```powershell
+dotnet run
+```
+
+The API will be available at:
+- HTTP: http://localhost:5271
+- HTTPS: https://localhost:7185
+- Swagger UI: http://localhost:5271/swagger
+
+## Authentication
+
+### Configuration
+
+JWT settings can be configured in `appsettings.json`:
+
+```json
+{
+  "JwtSettings": {
+    "SecretKey": "your-super-secret-key-with-at-least-32-characters",
+    "Issuer": "your-api",
+    "Audience": "your-clients",
+    "ExpiryInMinutes": 60
+  }
+}
+```
+
+### Getting a Token
+
+Make a POST request to obtain a JWT token:
+
+```http
+POST http://localhost:5271/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "demo",
+    "password": "demo123"
+}
+```
+
+### Using Authentication
+
+1. Get a token using the login endpoint
+2. Add the token to your requests:
+```http
+GET http://localhost:5271/weatherforecast
+Authorization: Bearer your-token-here
+```
+
+## Logging
+
+Logs are written to:
+- Console (for development)
+- `Logs/log-YYYYMMDD.txt` (daily rotating files)
+
+## Development Notes
+
+1. Add new entities in `Core/Domain/Entities`
+2. Define interfaces in `Core/Application/Interfaces`
+3. Implement services in `Infrastructure/Services`
+4. Add controllers in `Api/Controllers`
+
+## Best Practices
+
+1. Keep the domain layer independent of infrastructure concerns
+2. Use interfaces to define contracts in the application layer
+3. Implement cross-cutting concerns in the infrastructure layer
+4. Use dependency injection for loose coupling
+5. Follow REST API best practices in controllers
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This template is licensed under the MIT License - see the LICENSE file for details. 
