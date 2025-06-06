@@ -86,10 +86,7 @@ public class UserService : IUserService
             existingUser.LastName = updateUserDto.LastName;
         }
 
-        if (updateUserDto.IsActive.HasValue)
-        {
-            existingUser.IsActive = updateUserDto.IsActive.Value;
-        }
+        existingUser.IsActive = updateUserDto.IsActive;
 
         existingUser.UpdatedAt = DateTime.UtcNow;
 

@@ -77,13 +77,13 @@ public class UserRepository : IUserRepository
         var parameters = new[]
         {
             _spExecutor.CreateInputParameter("Id", user.Id, SqlDbType.UniqueIdentifier),
-            _spExecutor.CreateInputParameter("Username", user.Username ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("Email", user.Email ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("PasswordHash", user.Password ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("FirstName", user.FirstName ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("LastName", user.LastName ?? string.Empty, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("Username", user.Username, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("Email", user.Email, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("PasswordHash", user.Password, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("FirstName", user.FirstName, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("LastName", user.LastName, SqlDbType.NVarChar),
             _spExecutor.CreateInputParameter("CreatedAt", user.CreatedAt, SqlDbType.DateTime2),
-            _spExecutor.CreateInputParameter("UpdatedAt", user.UpdatedAt, SqlDbType.DateTime2)
+            _spExecutor.CreateInputParameter("UpdatedAt", user.UpdatedAt ?? DateTime.UtcNow, SqlDbType.DateTime2)
         };
 
         using var reader = await _spExecutor.ExecuteSp("sp_CreateUser", parameters);
@@ -98,12 +98,12 @@ public class UserRepository : IUserRepository
         var parameters = new[]
         {
             _spExecutor.CreateInputParameter("Id", user.Id, SqlDbType.UniqueIdentifier),
-            _spExecutor.CreateInputParameter("Username", user.Username ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("Email", user.Email ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("PasswordHash", user.Password ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("FirstName", user.FirstName ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("LastName", user.LastName ?? string.Empty, SqlDbType.NVarChar),
-            _spExecutor.CreateInputParameter("UpdatedAt", user.UpdatedAt, SqlDbType.DateTime2)
+            _spExecutor.CreateInputParameter("Username", user.Username, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("Email", user.Email, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("PasswordHash", user.Password, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("FirstName", user.FirstName, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("LastName", user.LastName, SqlDbType.NVarChar),
+            _spExecutor.CreateInputParameter("UpdatedAt", user.UpdatedAt ?? DateTime.UtcNow, SqlDbType.DateTime2)
         };
 
         using var reader = await _spExecutor.ExecuteSp("sp_UpdateUser", parameters);
