@@ -82,6 +82,61 @@ The API will be available at:
 - HTTPS: https://localhost:7185
 - Swagger UI: http://localhost:5271/swagger
 
+## Template Versioning with Tags
+
+This template uses Git tags to manage different versions. Each tag represents a specific .NET version or major feature update.
+
+### Available Tags
+
+- `Net-7.0.0`: Base template for .NET 7.0.0 projects with hexagonal architecture
+
+### Working with Tags
+
+#### Getting a Specific Version
+
+To create a project from a specific version:
+
+1. Fetch all tags:
+```powershell
+git fetch --all --tags
+```
+
+2. Check out the desired tag:
+```powershell
+git checkout tags/Net-7.0.0
+```
+
+3. Then run the create-project script as normal.
+
+#### Creating New Tags (For Contributors)
+
+1. Make your changes and commit them
+2. Create a new tag:
+```powershell
+git tag -a Net-X.Y.Z -m "Description of this version"
+```
+
+3. Push the tag:
+```powershell
+git push origin Net-X.Y.Z
+```
+
+#### Updating Existing Tags
+
+If you need to update an existing tag:
+
+1. Delete the tag locally and remotely:
+```powershell
+git tag -d Net-X.Y.Z
+git push origin :refs/tags/Net-X.Y.Z
+```
+
+2. Create the tag again at the desired commit:
+```powershell
+git tag -a Net-X.Y.Z -m "Updated description"
+git push origin Net-X.Y.Z
+```
+
 ## Authentication
 
 ### Configuration
