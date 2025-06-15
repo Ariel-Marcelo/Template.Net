@@ -29,19 +29,27 @@ This template provides a structured approach to building APIs using .NET 7, foll
 ## Project Structure
 
 ```
-src/
-├── Core/
-│   ├── Domain/          # Entities, Value Objects, Domain Events
-│   └── Application/     # Interfaces, DTOs, Application Services
-├── Infrastructure/
-│   ├── Persistence/     # Database Implementations
-│   └── Services/        # Service Implementations
-├── Api/
-│   ├── Controllers/     # API Endpoints
-│   ├── Configuration/   # API Configuration
-│   └── Middleware/      # Custom Middleware
-└── Shared/
-    └── Infrastructure/  # Shared Components
+Template.Net.sln
+
+Template.Net/                # Main API project
+├── src/
+│   ├── Api/                # API Endpoints, Configuration, Middleware
+│   ├── Core/               # Domain, Application (Entities, Value Objects, Interfaces, DTOs, Services)
+│   ├── Infrastructure/     # Database, Repositories, Service Implementations
+│   └── Shared/             # Shared Components
+│       └── Infrastructure/
+├── appsettings.json
+├── appsettings.Development.json
+└── ...other project files
+
+Template.Net.Tests/          # Test project
+├── Template.Net.Tests.csproj
+└── tests/
+    ├── Api/                # API layer tests
+    ├── Core/
+    │   ├── Application/    # Application layer tests
+    │   └── Domain/         # Domain layer tests
+    └── Infrastructure/     # Infrastructure layer tests
 ```
 
 ## Quick Start
@@ -74,13 +82,27 @@ dotnet restore
 
 3. Run the application:
 ```powershell
-dotnet run
+dotnet run --project Template.Net
 ```
 
 The API will be available at:
 - HTTP: http://localhost:5271
 - HTTPS: https://localhost:7185
 - Swagger UI: http://localhost:5271/swagger
+
+### Running Tests
+
+To run all tests in the solution, use:
+```powershell
+dotnet test
+```
+
+Or to run tests for a specific project:
+```powershell
+dotnet test Template.Net.Tests/Template.Net.Tests.csproj
+```
+
+This will build the solution and execute all unit tests, showing the results in the terminal.
 
 ## Template Versioning with Tags
 
@@ -208,4 +230,4 @@ Logs are written to:
 
 ## License
 
-This template is licensed under the MIT License - see the LICENSE file for details. 
+This template is licensed under the MIT License - see the LICENSE file for details.
