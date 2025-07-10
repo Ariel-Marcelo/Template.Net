@@ -1,5 +1,4 @@
 using Serilog;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Template.Api.Configuration;
 
 try
@@ -22,20 +21,17 @@ try
         .ReadFrom.Services(services)
         .Enrich.FromLogContext());
 
-    // Add services to the container
+
     builder.Services.AddControllers();
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    
-    // Add application services and authentication
     builder.Services.AddApplicationServices();
     builder.Services.AddJwtAuthentication(builder.Configuration);
 
     // Configure HTTPS
     builder.Services.AddHttpsRedirection(options =>
     {
-        options.HttpsPort = 7185; // This matches the port in launchSettings.json
+        options.HttpsPort = 7185;
     });
 
     var app = builder.Build();
@@ -56,11 +52,10 @@ try
     // Add authentication middleware
     app.UseAuthentication();
     app.UseAuthorization();
-
     app.MapControllers();
 
     // Log startup
-    Log.Information("Starting up {ApplicationName} in {Environment} environment on ports: HTTP:5271, HTTPS:7185",
+    Log.Information("Starting up {ApplicationName} in {Environment} environment on ports: HTTP:5271, HTTPS:7185, swagger UI: /swagger/index.html",
         builder.Environment.ApplicationName,
         builder.Environment.EnvironmentName);
 
