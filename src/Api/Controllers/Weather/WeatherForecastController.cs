@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Template.Core.Domain.Interfaces;
-using Template.Core.Domain.Entities;
-using System.Threading.Tasks;
+using template_net7.Core.Domain.Adapters.Wheather;
+using template_net7.Core.Domain.Entities;
 
-namespace Template.Api.Controllers;
+namespace template_net7.Api.Controllers.Weather;
 
 [Authorize]
 [ApiController]

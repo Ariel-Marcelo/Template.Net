@@ -1,4 +1,4 @@
-namespace Template.Shared.Infrastructure.Settings;
+namespace template_net7.Shared.Infrastructure.EnvironmentVariables;
 
 public class DatabaseSettings
 {

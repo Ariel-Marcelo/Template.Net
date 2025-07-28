@@ -1,9 +1,11 @@
-using Template.Core.Application.DTOs;
-using Template.Core.Domain.Entities;
-using Template.Core.Domain.Interfaces;
-using Template.Core.Domain.Ports;
+using template_net7.Core.Domain.Adapters.Users;
+using template_net7.Core.Domain.DTOs;
+using template_net7.Core.Domain.Entities;
+using template_net7.Core.Domain.Models.Users;
+using template_net7.Core.Domain.Ports;
+using template_net7.Core.Domain.Ports.Requests;
 
-namespace Template.Core.Application.Services;
+namespace template_net7.Core.Application.Services.Users;
 
 public class UserService : IUserService
 {
@@ -16,26 +18,25 @@ public class UserService : IUserService
         _logger = logger;
     }
 
-    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+    public async Task<IEnumerable<UserDataPublic>> GetAllUsersAsync()
     {
         var users = await _userRepository.GetAllAsync();
         return users.Select(MapToDto);
     }
 
-    public async Task<UserDto?> GetUserByIdAsync(Guid id)
+    public async Task<UserDataPublic?> GetUserByIdAsync(Guid id)
     {
         var user = await _userRepository.GetByIdAsync(id);
         return user != null ? MapToDto(user) : null;
     }
 
-    public async Task<UserDto> CreateUserAsync(CreateUserDto createUserDto)
+    public async Task<UserDataPublic> CreateUserAsync(CreateUserRequest createUserRequest)
     {
-        // Check if username or email already exists
-        if (await _userRepository.GetByUsernameAsync(createUserDto.Username) != null)
+        if (await _userRepository.GetByUsernameAsync(createUserRequest.Username) != null)
         {
             throw new InvalidOperationException("Username already exists");
         }
-        if (await _userRepository.GetByEmailAsync(createUserDto.Email) != null)
+        if (await _userRepository.GetByEmailAsync(createUserRequest.Email) != null)
         {
             throw new InvalidOperationException("Email already exists");
         }
@@ -43,11 +44,11 @@ public class UserService : IUserService
         var user = new User
         {
             Id = Guid.NewGuid(),
-            Username = createUserDto.Username,
-            Email = createUserDto.Email,
-            Password = createUserDto.Password, // Note: In production, hash the password
-            FirstName = createUserDto.FirstName,
-            LastName = createUserDto.LastName,
+            Username = createUserRequest.Username,
+            Email = createUserRequest.Email,
+            Password = createUserRequest.Password, // Note: In production, hash the password
+            FirstName = createUserRequest.FirstName,
+            LastName = createUserRequest.LastName,
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };
@@ -56,37 +57,37 @@ public class UserService : IUserService
         return MapToDto(createdUser);
     }
 
-    public async Task<UserDto> UpdateUserAsync(Guid id, UpdateUserDto updateUserDto)
+    public async Task<UserDataPublic> UpdateUserAsync(Guid id, UpdateUserRequest updateUserRequest)
     {
         var existingUser = await _userRepository.GetByIdAsync(id)
             ?? throw new InvalidOperationException("User not found");
 
-        if (updateUserDto.Email != null)
+        if (updateUserRequest.Email != null)
         {
-            var userWithEmail = await _userRepository.GetByEmailAsync(updateUserDto.Email);
+            var userWithEmail = await _userRepository.GetByEmailAsync(updateUserRequest.Email);
             if (userWithEmail != null && userWithEmail.Id != id)
             {
                 throw new InvalidOperationException("Email already exists");
             }
-            existingUser.Email = updateUserDto.Email;
+            existingUser.Email = updateUserRequest.Email;
         }
 
-        if (updateUserDto.Password != null)
+        if (updateUserRequest.Password != null)
         {
-            existingUser.Password = updateUserDto.Password; // Note: In production, hash the password
+            existingUser.Password = updateUserRequest.Password; // Note: In production, hash the password
         }
 
-        if (updateUserDto.FirstName != null)
+        if (updateUserRequest.FirstName != null)
         {
-            existingUser.FirstName = updateUserDto.FirstName;
+            existingUser.FirstName = updateUserRequest.FirstName;
         }
 
-        if (updateUserDto.LastName != null)
+        if (updateUserRequest.LastName != null)
         {
-            existingUser.LastName = updateUserDto.LastName;
+            existingUser.LastName = updateUserRequest.LastName;
         }
 
-        existingUser.IsActive = updateUserDto.IsActive;
+        existingUser.IsActive = updateUserRequest.IsActive;
 
         existingUser.UpdatedAt = DateTime.UtcNow;
 
@@ -99,9 +100,9 @@ public class UserService : IUserService
         return await _userRepository.DeleteAsync(id);
     }
 
-    private static UserDto MapToDto(User user)
+    private static UserDataPublic MapToDto(User user)
     {
-        return new UserDto(
+        return new UserDataPublic(
             user.Id,
             user.Username,
             user.Email,

@@ -1,4 +1,4 @@
-namespace Template.Core.Domain.Ports;
+namespace template_net7.Core.Domain.Ports;
 
 public interface IAuthenticationRepository
 {

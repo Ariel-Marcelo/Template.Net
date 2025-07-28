@@ -21,15 +21,4 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="src\Core\Domain\Entities\" />
-    <Folder Include="src\Core\Application\Interfaces\" />
-    <Folder Include="src\Infrastructure\Services\" />
-    <Folder Include="src\Infrastructure\Persistence\" />
-    <Folder Include="src\Api\Controllers\" />
-    <Folder Include="src\Api\Configuration\" />
-    <Folder Include="src\Api\Middleware\" />
-    
-  </ItemGroup>
-
 </Project>

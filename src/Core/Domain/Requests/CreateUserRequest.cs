@@ -1,12 +1,9 @@
-using System;
+namespace template_net7.Core.Domain.DTOs;
 
-namespace Template.Core.Application.DTOs;
-
-public record UpdateUserDto(
+public record CreateUserRequest(
     string Username,
     string Email,
     string FirstName,
     string LastName,
-    bool IsActive,
     string Password
 ); 

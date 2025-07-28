@@ -1,8 +1,7 @@
-using Template.Core.Domain.Entities;
-using Template.Core.Domain.Ports;
-using Microsoft.Extensions.Logging;
+using template_net7.Core.Domain.Entities;
+using template_net7.Core.Domain.Ports;
 
-namespace Template.Infrastructure.Repositories;
+namespace template_net7.Infrastructure.Repositories;
 
 public class WeatherForecastRepository : IWeatherForecastRepository
 {

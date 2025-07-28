@@ -1,4 +1,4 @@
-namespace Template.Core.Domain.Entities;
+namespace template_net7.Core.Domain.Entities;
 
 public class WeatherForecast
 {

@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using Template.Core.Application.DTOs;
-using Template.Core.Domain.Interfaces;
+using template_net7.Core.Domain.Adapters.Auth;
+using template_net7.Core.Domain.Requests;
 
-namespace Template.Api.Controllers;
+namespace template_net7.Api.Controllers.Auth;
 
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthenticationService _authService;
+    private readonly IAuthService _authService;
     private readonly ILogger<AuthController> _logger;
 
     public AuthController(
-        IAuthenticationService authService,
+        IAuthService authService,
         ILogger<AuthController> logger)
     {
         _authService = authService;

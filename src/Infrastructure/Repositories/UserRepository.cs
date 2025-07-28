@@ -1,10 +1,9 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Logging;
-using Template.Core.Domain.Entities;
-using Template.Core.Domain.Ports;
+using template_net7.Core.Domain.Entities;
+using template_net7.Core.Domain.Ports;
 
-namespace Template.Infrastructure.Repositories;
+namespace template_net7.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {

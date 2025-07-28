@@ -1,8 +1,8 @@
-using Template.Core.Domain.Interfaces;
-using Template.Core.Domain.Entities;
-using Template.Core.Domain.Ports;
+using template_net7.Core.Domain.Adapters.Wheather;
+using template_net7.Core.Domain.Entities;
+using template_net7.Core.Domain.Ports;
 
-namespace Template.Core.Application.Services;
+namespace template_net7.Core.Application.Services.Wheather;
 
 public class WeatherForecastService : IWeatherForecastService
 {

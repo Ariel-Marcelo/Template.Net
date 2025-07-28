@@ -1,7 +1,7 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 
-namespace Template.Core.Domain.Ports;
+namespace template_net7.Core.Domain.Ports;
 
 public interface IStoredProcedureExecutor : IDisposable
 {

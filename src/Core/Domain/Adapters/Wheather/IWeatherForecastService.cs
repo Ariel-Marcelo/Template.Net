@@ -1,6 +1,6 @@
-using Template.Core.Domain.Entities;
+using template_net7.Core.Domain.Entities;
 
-namespace Template.Core.Domain.Interfaces;
+namespace template_net7.Core.Domain.Adapters.Wheather;
 
 public interface IWeatherForecastService
 {

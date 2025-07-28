@@ -1,9 +1,10 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Template.Core.Application.DTOs;
-using Template.Core.Domain.Interfaces;
+using template_net7.Core.Domain.Adapters.Users;
+using template_net7.Core.Domain.DTOs;
+using template_net7.Core.Domain.Models.Users;
+using template_net7.Core.Domain.Ports.Requests;
 
-namespace Template.Api.Controllers;
+namespace template_net7.Api.Controllers.Users;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -19,7 +20,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<UserDataPublic>>> GetAll()
     {
         _logger.LogInformation("Getting all users");
         var users = await _userService.GetAllUsersAsync();
@@ -27,7 +28,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<UserDto>> GetById(Guid id)
+    public async Task<ActionResult<UserDataPublic>> GetById(Guid id)
     {
         _logger.LogInformation("Getting user with ID: {Id}", id);
         var user = await _userService.GetUserByIdAsync(id);
@@ -41,12 +42,12 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<UserDto>> Create(CreateUserDto createUserDto)
+    public async Task<ActionResult<UserDataPublic>> Create(CreateUserRequest createUserRequest)
     {
         try
         {
-            _logger.LogInformation("Creating new user with username: {Username}", createUserDto.Username);
-            var user = await _userService.CreateUserAsync(createUserDto);
+            _logger.LogInformation("Creating new user with username: {Username}", createUserRequest.Username);
+            var user = await _userService.CreateUserAsync(createUserRequest);
             return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
         }
         catch (InvalidOperationException ex)
@@ -56,12 +57,12 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<UserDto>> Update(Guid id, UpdateUserDto updateUserDto)
+    public async Task<ActionResult<UserDataPublic>> Update(Guid id, UpdateUserRequest updateUserRequest)
     {
         try
         {
             _logger.LogInformation("Updating user with ID: {Id}", id);
-            var user = await _userService.UpdateUserAsync(id, updateUserDto);
+            var user = await _userService.UpdateUserAsync(id, updateUserRequest);
             return Ok(user);
         }
         catch (InvalidOperationException ex)

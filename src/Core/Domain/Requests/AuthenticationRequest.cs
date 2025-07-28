@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Template.Core.Application.DTOs;
+namespace template_net7.Core.Domain.Requests;
 
 public class AuthenticationRequest
 {

@@ -1,5 +1,5 @@
 using Serilog;
-using Template.Api.Configuration;
+using template_net7.Api.Configuration;
 
 try
 {

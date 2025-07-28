@@ -1,6 +1,6 @@
-namespace Template.Core.Domain.Interfaces;
+namespace template_net7.Core.Domain.Adapters.Auth;
 
-public interface IAuthenticationService
+public interface IAuthService
 {
     Task<string> GenerateTokenAsync(string username, string password);
     Task<bool> ValidateUserAsync(string username, string password);

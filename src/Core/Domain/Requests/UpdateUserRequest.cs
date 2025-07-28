@@ -1,11 +1,10 @@
-using System;
+namespace template_net7.Core.Domain.Ports.Requests;
 
-namespace Template.Core.Application.DTOs;
-
-public record CreateUserDto(
+public record UpdateUserRequest(
     string Username,
     string Email,
     string FirstName,
     string LastName,
+    bool IsActive,
     string Password
 ); 

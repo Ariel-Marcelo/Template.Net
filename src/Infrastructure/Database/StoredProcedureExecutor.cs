@@ -1,11 +1,10 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-using Template.Shared.Infrastructure.Settings;
-using Template.Core.Domain.Ports;
+using template_net7.Core.Domain.Ports;
+using template_net7.Shared.Infrastructure.EnvironmentVariables;
 
-namespace Template.Infrastructure.Database;
+namespace template_net7.Infrastructure.Database;
 
 public class StoredProcedureExecutor : IStoredProcedureExecutor, IAsyncDisposable
 {

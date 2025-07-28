@@ -1,9 +1,9 @@
-using Template.Core.Domain.Interfaces;
-using Template.Core.Domain.Ports;
+using template_net7.Core.Domain.Adapters.Auth;
+using template_net7.Core.Domain.Ports;
 
-namespace Template.Core.Application.Services;
+namespace template_net7.Core.Application.Services.Auth;
 
-public class AuthenticationService : IAuthenticationService
+public class AuthenticationService : IAuthService
 {
     private readonly IAuthenticationRepository _authenticationRepository;
 

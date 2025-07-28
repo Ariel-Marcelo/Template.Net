@@ -1,8 +1,6 @@
-using System;
+namespace template_net7.Core.Domain.Models.Users;
 
-namespace Template.Core.Application.DTOs;
-
-public record UserDto(
+public record UserDataPublic(
     Guid Id,
     string Username,
     string Email,

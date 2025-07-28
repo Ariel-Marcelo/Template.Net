@@ -3,10 +3,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Template.Core.Domain.Ports;
-using Template.Shared.Infrastructure.Settings;
+using template_net7.Core.Domain.Ports;
+using template_net7.Shared.Infrastructure.EnvironmentVariables;
 
-namespace Template.Infrastructure.Repositories;
+namespace template_net7.Infrastructure.Repositories;
 
 public class AuthenticationRepository : IAuthenticationRepository
 {
